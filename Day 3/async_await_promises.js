@@ -47,6 +47,7 @@ function something() {
     setTimeout(() => {
       console.log("Hey babes");
       resolve("hi there");
+      console.log(p);
     }, 5000);
   });
   return p;
@@ -55,7 +56,7 @@ function something() {
 async function somethingAsync() {
   let value = await something(); // If out of function something is there to be logged after calling then it will be called als o
   console.log("Hi there");
-  console.log(value);
+  console.log(value); //By using await the value returned from the promise is the resolved value which could be used further in the  code or the function according to ourselves
   console.log("Hi there2");
 }
 
