@@ -17,7 +17,7 @@ const products = [
   },
   {
     id: 3,
-    name: 'albany sofa',
+    name: 'albany sectional',
     image:
       'https://dl.airtable.com/.attachments/05ecddf7ac8d581ecc3f7922415e7907/a4242abc/product-1.jpeg',
     price: 10.99,
