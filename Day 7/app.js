@@ -1,33 +1,19 @@
 const express = require("express");
-const logger = require("./logger_middleware");
-const authorize = require("./authorize");
-const morgan = require("morgan");
 const port = 3000;
 const app = express();
-// req => middleware => res
+const people = require("./routes/people");
+const authorize = require("./routes/auth");
 
-// app.use([logger,authorize]);
+app.use(express.static("./methods-public"));
 
-app.use(morgan('tiny'));
+app.use(express.urlencoded({ extended: false }));
 
-app.get('/',(req,res) => {
-  res.send("Home");
-})
+app.use(express.json());
 
-app.get('/about',(req,res) => {
-  // console.log(req);
-  res.send("About");
-})
+app.use("/api/people", people);
 
-app.get('/api/products',(req,res) => {
-  // console.log(req);
-  res.send("About");
-})
+app.use("/login", authorize);
 
-app.get('/items',(req,res) => {
-  res.send("About");
-})
-
-app.listen(port,function(){
-  console.log("The server is listening on the port number 3000");
-})
+app.listen(port, function () {
+  console.log("The server is listening on port 3000");
+});
