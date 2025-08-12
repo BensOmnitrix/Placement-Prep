@@ -1,0 +1,20 @@
+[
+  {
+    "id": 535257,
+    "completed": true,
+    "title": "DSA",
+    "description": "Morning is the best time to do so"
+  },
+  {
+    "id": 535285,
+    "completed": false,
+    "title": "DEV",
+    "description": "Evening is the best time to do so"
+  },
+  {
+    "id": 7632,
+    "title": "Buy groceries",
+    "completed": false,
+    "description": "I should buy groceries"
+  }
+]
