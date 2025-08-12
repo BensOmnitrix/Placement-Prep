@@ -15,7 +15,7 @@ const createPerson = (req,res)=>{
 const updatePerson = (req,res) => {
   const {id} = req.params;
   const {name} = req.body;
-  const person = people.find((person => person['id'] === Number(id)));
+  const person = people.find((person) => person['id'] === Number(id));
   if(!person){
     return res.status(404).json({success: false,msg: 'np person iss present'});
   }
