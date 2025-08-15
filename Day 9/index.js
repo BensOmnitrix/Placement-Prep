@@ -146,7 +146,7 @@ app.delete("/todos/:id", (req, res) => {
         }
         return res.status(200).json({ success: true, msg: "Todo is updated" });
       });
-      res
+      return res
         .status(200)
         .json({ success: true, msg: "The todo has been successfully deleted" });
     } catch (error) {
