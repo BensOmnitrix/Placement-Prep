@@ -1,0 +1,47 @@
+/* #navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    height: 60px;
+}
+
+#navbar-inner-search{
+    display: flex;
+    margin: 0 40px;
+}
+
+.navbar-elements{
+    color: white;
+}
+
+.navbar-elements a{
+    font-size: 25px;
+    color: rgba(184, 130, 31, 0.79);
+    text-decoration: none;
+}
+
+#search-button{
+    background-color: yellow; */
+/* } */
+
+div {
+    margin: 20px;
+  border: 2px solid black;
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 20px;
+}
+
+/* display - inline-block => It is used for making the div's appear in the inline arrangement but the margin and padding works for it whereas if the display is set to inline then the margin and padding properties do not apply */
+/* % - In this unit the property is set according to the parents element
+em - In this unit the if property is font-size then it is relative to its parent font-size but if any other property is there then it is set according to the font-size of itself
+rem - In this unit the property is set according to the font-size of the root element(html); */
+/* x vh - It is x% of the browser's height */
+/* x vw - It is x% of the browser width */
+
+/* position => static => the top,right,left,bottom,z-index properties will not work (the properties mentioned is like the distance of the element from the bottom of the page) */
+/* relative => It will be according to the point where it is */
+/* absolute => Position relative to its non static parent and is removed from the flow*/
+/* fixed => position related to the browser and removed from the flow */
+/* sticky => This is when the object is seen on the screen while scrolling then it will be made stick to the screen as in fixed it on the screen */
