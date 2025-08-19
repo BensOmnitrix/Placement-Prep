@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<script>
+    // let timeout;
+    // function debounceCalculateInterset(){
+    //     clearTimeout(timeout);
+    //     timeout = setTimeout(calculateInterest,1000);
+    // }
+    
+    setInterval(calculateInterest,5000);
+
+    
+    async function calculateInterest(){
+        let x = document.querySelectorAll('.interest')[0].value;
+        let y = document.querySelectorAll('.interest')[1].value;
+        let z = document.querySelectorAll('.interest')[2].value;
+        const result = await fetch(`http://localhost:3000/interest?principal=${x}&roi=${y}&time=${z}`);
+        const finalresult = await result.text();
+        document.querySelector("#displaySum").innerHTML = finalresult;
+    }
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/">
+        <input type="text" class="interest" name="principal" placeholder="Principal Amount in Rs" oninput="debounceCalculateInterset()">
+        <input type="text" class="interest" name="roi" placeholder="Rate of Interest" oninput="debounceCalculateInterset()">
+        <input type="text" class="interest" name="time" placeholder="Time in hrs" oninput="debounceCalculateInterset()">
+    </form>
+    <br>
+    <button>Calculate Interest</button>
+
+    <p id="displaySum"></p>
+    <script>
+    </script>
+</body>
+</html>
