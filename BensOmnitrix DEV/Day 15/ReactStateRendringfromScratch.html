@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO App using DOM Manipulation</title>
+  </head>
+  <body>
+    <input type="text" id="taskTitle" />
+    <br />
+    <br />
+    <input type="text" id="taskDescription" />
+    <br />
+    <br />
+
+    <div id="container"></div>
+
+    <script>
+      function createChild(title, completed, id) {
+        const childDiv = document.createElement("div");
+        childDiv.setAttribute("id", "childDiv");
+
+        const todoText = document.createElement("p");
+        todoText.setAttribute("class", "todoText");
+        todoText.innerText = `${title} => ${completed}`;
+        childDiv.appendChild(todoText);
+
+        const btn = document.createElement("button");
+        btn.setAttribute("id", `marking(${id})`);
+        btn.innerText = "Mark as Done";
+
+        childDiv.appendChild(btn);
+
+        return childDiv;
+      }
+      // state will always be an array
+      // It will always have the title,completed,id
+      function updateDomAcctoState(state){
+        const parent = document.querySelector("#container");
+        parent.innerHTML = "";
+        const state_size = state.length;
+        for(let i=0;i<state_size;i++){
+            const {title,completed,id} = state[i];
+
+            parent.appendChild(createChild(title,completed,id));
+        }
+      }
+      
+      window.setInterval(async function() {
+        const response = await fetch('http://localhost:3000/todos');
+        const data = await response.json();
+        updateDomAcctoState(data['todos'])
+      },1000)
+    </script>
+  </body>
+</html>

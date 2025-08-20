@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO App using DOM Manipulation</title>
+  </head>
+  <body>
+    <input type="text" id="taskTitle" />
+    <br />
+    <br />
+    <input type="text" id="taskDescription" />
+    <br />
+    <br />
+    <button onclick="appendTODO()">Add todo</button>
+
+    <script>
+      function appendTODO() {
+        let title = document.querySelector("#taskTitle").value;
+        let description = document.querySelector("#taskDescription").value;
+
+        let childDiv = document.createElement("div");
+        childDiv.setAttribute('id','childDiv');
+
+        let todoText = document.createElement("p");
+        todoText.setAttribute('class','todoText');
+        todoText.innerText = `${title} => ${description}`;
+        childDiv.appendChild(todoText);
+
+        let btn = document.createElement("button");
+        btn.setAttribute('class','todoMarkingBtn');
+        btn.innerText = "Mark as Done";
+
+        btn.addEventListener("click",function(){
+          btn.innerText = "Done";
+        })
+
+        childDiv.appendChild(btn);
+
+        document.body.appendChild(childDiv)
+      }
+    </script>
+  </body>
+</html>
