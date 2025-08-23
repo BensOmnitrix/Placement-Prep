@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Working</title>
+</head>
+<body>
+    <div id="buttonParent"></div>
+    <script>
+        let state = {
+            add: 0,
+            sub: 0
+        }
+
+        function onButtonPressAdd(){
+            state.add++;
+            buttonReRender();
+        }
+
+        function onButtonPressSub(){
+            state.sub--;
+            buttonReRender();
+        }
+
+        function buttonReRender(){
+            document.querySelector('#buttonParent').innerHTML = "";
+            const addComponent = addButtonComponent(state.add);
+            document.querySelector("#buttonParent").appendChild(addComponent);
+            const subComponent = subButtonComponent(state.sub);
+            document.querySelector("#buttonParent").appendChild(subComponent);
+        }
+
+        function addButtonComponent(count){
+            const addButton = document.createElement('button');
+            addButton.innerHTML =  `Counter ${count}`;
+            addButton.setAttribute("onClick","onButtonPressAdd()");
+            return addButton;
+        }
+        
+        function subButtonComponent(count){
+            const subButton = document.createElement('button');
+            subButton.innerHTML =  `Counter ${count}`;
+            subButton.setAttribute("onClick","onButtonPressSub()");
+            subButton.setAttribute("style","{display: block}")
+            return subButton;
+        }
+        buttonReRender(state);
+    </script>
+</body>
+</html>
