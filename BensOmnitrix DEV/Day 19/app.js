@@ -8,7 +8,7 @@ const jwtPassword = require("../Day 12/jwtPassword.js");
 const app = express();
 
 mongoose.connect(
-  "mongodb+srv://BensOmnitrix:terimaakijai1234@cluster0.m8z18gx.mongodb.net/todo_app"
+  "mongodb+srv://{usenname}:{password}@cluster0.m8z18gx.mongodb.net/todo_app"
 );
 
 const UserSchema = new mongoose.Schema({
