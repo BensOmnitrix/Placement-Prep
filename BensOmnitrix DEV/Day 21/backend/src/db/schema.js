@@ -10,10 +10,10 @@ const UserSchema = new mongoose.Schema({
     }]
 })
 
-const TodosSchema = new mongoose.Schema({
+const TodoSchema = new mongoose.Schema({
     title: String,
     description: String,
     completed: Boolean
 })
 
-module.exports = {UserSchema, TodosSchema};
+module.exports = {UserSchema, TodoSchema};
