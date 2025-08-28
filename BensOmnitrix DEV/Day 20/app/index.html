@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+</head>
+<body>
+    <div class="btn-div">
+        <button onclick="changeCount()">Counter 0</button>
+    </div>
+    <script>
+        let state = {
+            count : 0
+        }
+        function reRender(state){
+            const parentDiv = document.querySelector(".btn-div");
+            parentDiv.innerHTML = "";
+            const newButton = addButton();
+            newButton.innerHTML =  `Counter ${state.count}`;
+            parentDiv.appendChild(newButton);
+        }
+
+        function addButton(){
+            const newButton = document.createElement("button");
+            newButton.setAttribute("onclick","changeCount()");
+            return newButton;
+        }
+
+        function changeCount(){
+            state.count++;
+            reRender(state);
+        }
+    </script>
+</body>
+</html>
