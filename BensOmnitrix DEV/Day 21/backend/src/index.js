@@ -9,13 +9,14 @@ const JWT_KEY = "secret_key";
 const { UserSchema, TodoSchema } = require("./db/schema.js");
 const { signupSchema, signinSchema } = require("./validation/validation.js");
 const { success } = require("zod");
+const e = require("express");
 
 mongoose.connect(
   "mongodb+srv://BensOmnitrix:terimaakijai1234@cluster0.m8z18gx.mongodb.net/usersTodo"
 );
 
 const User = mongoose.model("User", UserSchema);
-const Todo = mongoose.model("Todo", TodoSchema);
+const Todo = mongoose.model("Todos", TodoSchema);
 
 function SignupValidation(req, res, next) {
   //Write Signup validation code
@@ -125,11 +126,11 @@ app.post("/signin", SigninValidation, async (req, res) => {
 
 function JWT_AUTH(req, res, next) {
   const { authorization } = req.headers;
-  if(!authorization){
+  if (!authorization) {
     return res.status(400).json({
-        success: false,
-        message: "Token not provided"
-    })
+      success: false,
+      message: "Token not provided",
+    });
   }
   try {
     const token = authorization.split(" ")[1];
@@ -144,7 +145,6 @@ function JWT_AUTH(req, res, next) {
 
     req.user_id = decode._id;
     return next();
-
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
   }
@@ -181,23 +181,125 @@ app.post("/todo/add", async (req, res) => {
   }
 });
 
-app.put("/todo/update", async(req, res) => {
-    const {id, title, description, completed} = req.body;
+app.put("/todo/update", async (req, res) => {
+  try {
+    const { _id, title, description, completed } = req.body;
 
-    const updatedTodo = await Todo.updateOne({
-        id: id,
-        title: title, 
-        description: description, 
-        completed: completed
-    })
+    const { user_id } = req;
 
-    const {user_id} = req;
+    const exisitingUser = await User.findOne({ _id: user_id });
 
+    if (!exisitingUser) {
+      return res.status(411).json({
+        success: false,
+        message: "User is not authenticated..Signup and try again later",
+      });
+    }
+
+    if (!exisitingUser.todos.includes(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "You are not authorized to access this Todo",
+      });
+    }
+
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      _id,
+      {
+        title: title,
+        description: description,
+        completed: completed,
+      },
+      { new: true }
+    );
+
+    if (!updatedTodo) {
+      return res.status(404).json({
+        success: false,
+        message: "Todo does not exists",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Todo has been updated successfully",
+      data: updatedTodo,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
 });
 
-app.get("/todo/get", (req, res) => {});
+app.get("/todo/get", async (req, res) => {
+  try {
+    const { user_id } = req;
 
-app.delete("/todo/delete", (req, res) => {});
+    const exisitingUser = await User.findOne({ _id: user_id }).populate(
+      "todos"
+    );
+
+    if (!exisitingUser) {
+      return res.status(411).json({
+        success: false,
+        message: "User does not exists",
+      });
+    }
+
+    const allTodos = exisitingUser.todos;
+
+    if (allTodos.length == 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Add todos to be fetched",
+        data: allTodos,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Todos are successfully fetched",
+      data: allTodos,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+app.delete("/todo/delete", async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const { user_id } = req;
+
+    const exisitingUser = await User.findOne({ _id: user_id });
+
+    if (!exisitingUser.todos.includes(_id)) {
+      return res.status(411).json({
+        success: false,
+        message: "You are not authorized to delete the Todo",
+      });
+    }
+
+    await Todo.deleteOne({ _id: _id });
+
+    await User.updateOne({ _id: user_id }, { $pull: { todos: _id } });
+
+    return res.status(200).json({
+      success: false,
+      message: "Todo has been successfully deleted",
+    });
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    }); 
+  }
+});
 
 app.all(/.*/, (req, res) => {
   return res.status(404).json({
