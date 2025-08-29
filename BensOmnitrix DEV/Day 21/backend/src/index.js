@@ -12,7 +12,7 @@ const { success } = require("zod");
 const e = require("express");
 
 mongoose.connect(
-  "mongodb+srv://BensOmnitrix:terimaakijai1234@cluster0.m8z18gx.mongodb.net/usersTodo"
+  "mongodb+srv://<username>:<password>@cluster0.m8z18gx.mongodb.net/usersTodo"
 );
 
 const User = mongoose.model("User", UserSchema);
