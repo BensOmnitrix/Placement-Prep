@@ -8,12 +8,15 @@ const jwt = require("jsonwebtoken");
 const JWT_KEY = "secret_key";
 const { UserSchema, TodoSchema } = require("./db/schema.js");
 const { signupSchema, signinSchema } = require("./validation/validation.js");
-const { success } = require("zod");
-const e = require("express");
+const cors = require("cors");
+require("../dotenv").config();
+const MONGO_URL = process.env.MONGO_URL;
+
+app.use(cors());
 
 mongoose.connect(
-  "mongodb+srv://<username>:<password>@cluster0.m8z18gx.mongodb.net/usersTodo"
-);
+  MONGO_URL
+).then(() => console.log("DS connected successfully")).catch((err) => console.log(err.message));
 
 const User = mongoose.model("User", UserSchema);
 const Todo = mongoose.model("Todos", TodoSchema);
@@ -290,7 +293,7 @@ app.delete("/todo/delete", async (req, res) => {
     await User.updateOne({ _id: user_id }, { $pull: { todos: _id } });
 
     return res.status(200).json({
-      success: false,
+      success: true,
       message: "Todo has been successfully deleted",
     });
   } catch (err) {
