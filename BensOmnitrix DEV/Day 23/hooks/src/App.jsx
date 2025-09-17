@@ -119,26 +119,48 @@ import axios from "axios";
 
 //Custom Hooks
 
-function useTodos(){
-  const [todos,setTodos] = useState([]);
+// function useTodos(){
+//   const [todos,setTodos] = useState([]);
   
-  useEffect(() => {
-    fetch("").then((res) => {
-      res.json().then((data) => {
-        console.log(JSON.stringify(data));
-      })
-    })
-  })
+//   useEffect(() => {
+//     fetch("").then((res) => {
+//       res.json().then((data) => {
+//         console.log(JSON.stringify(data));
+//       })
+//     })
+//   })
 
-  return todos;
-}
+//   return todos;
+// }
+
+// function App(){
+//   const todos = useTodos();
+  
+//   return (
+//     <>
+//         {todos}
+//     </>
+//   )
+// }
+
+//useRef
+import { useRef } from "react";
 
 function App(){
-  const todos = useTodos();
-  
+  const divRef = useRef();
+  const incomeTax = 20000;
+
+  console.log("Re render happens")
+
+  useEffect(() => {
+    setTimeout(() => {
+      divRef.current.innerHTML = 10;
+    },5000)
+  },[]);
+
   return (
     <>
-        {todos}
+      <div ref={divRef}>My income tax is {incomeTax}</div>
     </>
   )
 }
